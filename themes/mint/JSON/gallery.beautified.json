@@ -1,0 +1,45 @@
+[ {
+    "category": "All",
+    "images": [ {
+        "url": "http://staging.mint.mtcdev.com/wp-content/uploads/2017/03/gallery-img-temp-925x667-blue-925x667.jpg",
+        "thumb": "http://staging.mint.mtcdev.com/wp-content/uploads/2017/03/gallery-img-temp-925x667-blue-220x220.jpg",
+        "caption": "This is a blue image."
+    }, {
+        "url": "http://staging.mint.mtcdev.com/wp-content/uploads/2017/03/gallery-img-temp-925x667-925x667.jpg",
+        "thumb": "http://staging.mint.mtcdev.com/wp-content/uploads/2017/03/gallery-img-temp-925x667-220x220.jpg",
+        "caption": "This is the normal image."
+    }, {
+        "url": "http://staging.mint.mtcdev.com/wp-content/uploads/2017/03/gallery-img-temp-925x667-red-925x667.jpg",
+        "thumb": "http://staging.mint.mtcdev.com/wp-content/uploads/2017/03/gallery-img-temp-925x667-red-220x220.jpg",
+        "caption": "This is a red image."
+    }, {
+        "url": "http://staging.mint.mtcdev.com/wp-content/uploads/2017/03/gallery-img-temp-925x667-green-925x667.jpg",
+        "thumb": "http://staging.mint.mtcdev.com/wp-content/uploads/2017/03/gallery-img-temp-925x667-green-220x220.jpg",
+        "caption": "This is a green image."
+    } ]
+}, {
+    "category": "Apartments",
+    "images": [ {
+        "url": "http://staging.mint.mtcdev.com/wp-content/uploads/2017/03/gallery-img-temp-925x667-blue-925x667.jpg",
+        "thumb": "http://staging.mint.mtcdev.com/wp-content/uploads/2017/03/gallery-img-temp-925x667-blue-220x220.jpg",
+        "caption": "This is a blue image."
+    }, {
+        "url": "http://staging.mint.mtcdev.com/wp-content/uploads/2017/03/gallery-img-temp-925x667-925x667.jpg",
+        "thumb": "http://staging.mint.mtcdev.com/wp-content/uploads/2017/03/gallery-img-temp-925x667-220x220.jpg",
+        "caption": "This is the normal image."
+    } ]
+}, {
+    "category": "Amenities",
+    "images": [ {
+        "url": "http://staging.mint.mtcdev.com/wp-content/uploads/2017/03/gallery-img-temp-925x667-red-925x667.jpg",
+        "thumb": "http://staging.mint.mtcdev.com/wp-content/uploads/2017/03/gallery-img-temp-925x667-red-220x220.jpg",
+        "caption": "This is a red image."
+    } ]
+}, {
+    "category": "Neighborhood",
+    "images": [ {
+        "url": "http://staging.mint.mtcdev.com/wp-content/uploads/2017/03/gallery-img-temp-925x667-green-925x667.jpg",
+        "thumb": "http://staging.mint.mtcdev.com/wp-content/uploads/2017/03/gallery-img-temp-925x667-green-220x220.jpg",
+        "caption": "This is a green image."
+    } ]
+} ]

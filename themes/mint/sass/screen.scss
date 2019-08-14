@@ -1,0 +1,3512 @@
+@import "compass/reset";
+@import "compass/utilities";
+@import "compass/css3/";
+@import "compass/css3/user-interface";
+@import "compass/css3/transform";
+@import "modules/variables";
+@import "modules/mixins";
+
+%cf {
+  &:after {
+    content:"";
+    display:table;
+    clear:both;
+  }
+}
+
+%cover {
+  @include background-size(cover);
+  background-position:center;
+  background-repeat:no-repeat;
+}
+
+%contain {
+  @include background-size(contain);
+  background-position:center;
+  background-repeat:no-repeat;
+}
+
+%fill {
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+}
+
+%blend {
+  // This won't work on IE
+  background-color: $green;
+  background-blend-mode: multiply;
+}
+
+%fill-fixed {
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+}
+
+%absolute-center {
+  position: absolute;
+  right: 0;
+  left: 0;
+  margin: 0 auto;
+}
+
+%fixed-center {
+  position: fixed;
+  right: 0;
+  left: 0;
+  margin: 0 auto;
+}
+
+.vertical-center-parent {
+  display:table;
+  height:100%;
+  width:100%;
+  position: relative;
+  .vertical-center-child {
+    display:table-cell;
+    vertical-align:middle;
+  }
+}
+
+.homepage-vertical-center-parent {
+  @include breakpoint(ten) {
+    display:table;
+    height:100%;
+    width:100%;
+    position: relative;
+  }
+  .vertical-center-child {
+    @include breakpoint(ten) {
+      display:table-cell;
+      vertical-align:middle;
+    }
+  }
+}
+
+
+.ease { @include transition(all .25s ease-in-out); }
+.ease-slow { @include transition(all .5s ease-in-out); }
+
+.fade-in {
+  @include transition(opacity .25s ease-in-out);
+  @include transition-delay(.25s);
+  opacity: 0;
+  &.loaded {
+    opacity: 1;
+  }
+}
+
+html {
+  font-size: 62.5%;
+  height: 100%;
+}
+
+body {
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: $black;
+
+  // Fixes for logged in users, so the admin bar doesn't cover elements.
+  &.logged-in {
+    padding: 46px 0 0;
+    @media screen and ( min-width: 782px ) {
+      padding: 32px 0 0;
+    }
+
+    #header {
+      position: fixed;
+      top: 46px;
+      @media screen and ( min-width: 782px ) {
+        top: 32px;
+      }
+    }
+
+    #nav-trigger {
+      top: 86px;
+      @media screen and ( min-width: 782px ) {
+        top: 72px;
+      }
+    }
+
+    #priority-menu {
+      position: fixed;
+      top: 96px;
+      @media screen and ( min-width: 782px ) {
+        top: 82px;
+      }
+    }
+
+    #main-menu-wrapper {
+      .menu-logo {
+        top: 76px;
+        @media screen and ( min-width: 782px ) {
+          top: 60px;
+        }
+      }
+    }
+  }
+  &.fixed {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+  }
+}
+.wrapper { position: relative; }
+
+.container {
+  position: relative;
+}
+
+
+#slideout {
+  display: none;
+  @include breakpoint(tablet) {
+    display: block;
+    position: fixed;
+    top: 200px;
+    right: -260px;
+    max-width: 322px;
+    z-index: 3;
+  }
+  &.active { right: 0; }
+  .slideout-outer-wrapper {
+    .button-wrap {
+      position: relative;
+      width: 60px;
+      span {
+        @include font-size(2.3);
+        color: $white;
+        top: 50%;
+        position: absolute;
+        margin: -13px 0 0 -15px;
+      }
+      .icon-close { margin: -13px 0 0 -20px; }
+
+
+      .button-text-wrap {
+        background: rgba($white, .5);
+        border: 2px solid $white;
+        border-right: 0;
+        // padding: 15px 0;
+        .button {
+          @include transform(rotate(90deg));
+          @include transform-origin(left);
+          @include font-family($futura-book);
+          @include font(1.8, $black);
+          letter-spacing: 2px;
+          text-transform: uppercase;
+          left: 30px;
+          margin: -70px 0px 0 0;
+          position: absolute;
+          min-width: 125px;
+          top: 50%;
+        }
+      }
+      // Trigger Hover
+      &:hover {
+        background: rgba($aqua, .75);
+        cursor: pointer;
+        .button-wrap {
+          .button {
+            color: $white;
+          }
+        }
+      }
+    }
+    .slideout-inner-wrap {
+      padding: 20px 18px;
+      @include box-sizing(border-box);
+      background: rgba($white, .75);
+      border: 2px solid $white;
+      .content {
+        @include font-family($futura);
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        text-align: center;
+        .title {
+          @include font(1.5, $black);
+          font-weight: 700;
+          line-height: 1.25;
+        }
+        .copy {
+          @include font(1.5, $black);
+          line-height: 1.25;
+        }
+        .disclaimer {
+          @include font(1, $black);
+          line-height: 1.25;
+          margin: 15px 0 0;
+        }
+      }
+    }
+  }
+}
+
+#header {
+  position: fixed;
+  top: 0;
+  z-index: 3;
+  width: 100%;
+  height: 0;
+  background: transparent;
+  &.scroll {
+    background: rgba($teal, .98);
+    height: 85px;
+    @include breakpoint(tablet) { height: 100px; }
+    @include breakpoint(ten) { height: 115px; }
+    #logo {
+      background: url('../images/MIN-Towncenter_Logo_web_white_white.png') 0 0 no-repeat transparent;
+      background-size: contain;
+      img { opacity: 0; }
+    }
+    .header-left {
+      .desktop-elements{
+        #chat span:hover { color: $black; }
+        .resident-quicklinks .menu a:hover { color: $black; }
+        .quick-signup {
+          &:hover {
+            border: 2px solid $black;
+            &:before {
+              border-bottom: 2px solid $black;
+              border-right: 2px solid $black;
+            }
+            a {
+              color: $black;
+              background: $teal;
+            }
+          }
+        }
+      }
+      .mobile-elements {
+        .mobile-icon a:hover { color: $black; }
+      }
+    }
+    #priority-menu {
+      ul li a:hover { color: $black; }
+    }
+  }
+
+  #logo {
+    margin: 25px auto;
+    width: 87px;
+    background: transparent;
+    display: block;
+    @include breakpoint(tablet) {
+      margin: 30px auto;
+      width: 99px;
+    }
+    @include breakpoint(ten) {
+      margin: 27px auto;
+      width: 119px;
+    }
+    img {
+      width: 100%;
+      opacity: 1;
+    }
+  }
+
+  .header-left {
+    position: absolute;
+    left: 20px;
+    top: 30px;
+    @include breakpoint(tablet) { top: 35px; }
+    @include breakpoint(ten) { top: 40px; }
+    .desktop-elements {
+      display: none;
+      @include breakpoint(ten) {
+        display: block;
+      }
+      #chat {
+        display: inline-block;
+        margin: 0 35px 0 0;
+        a {
+          text-decoration: none;
+          span {
+            color: $white;
+            cursor: pointer;
+            @include font-size(2.5);
+            &:hover {
+              color: $black;
+            }
+          }
+        }
+      }
+      .resident-quicklinks {
+        display: inline-block;
+        vertical-align: top;
+        margin: 10px 0 0;
+        .menu {
+          display: inline-block;
+          margin: 0 7px 0 0;
+          padding: 0 7px 0 0;
+          border-right: 1px solid $white;
+          @include breakpoint(ten) {
+            margin: 0 10px 0 0;
+            padding: 0 10px 0 0;
+          }
+          @include breakpoint(fourteen) {
+            margin: 0 15px 0 0;
+            padding: 0 15px 0 0;
+          }
+          a {
+            @include transition(all .25s ease-in-out);
+            @include font-family($futura-book);
+            @include font(1.2, $white);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-decoration: none;
+            @include breakpoint(fourteen) { @include font-size(1.4); }
+            &:hover {
+              color: $black;
+            }
+          }
+          &:last-child {
+            margin: 0;
+            padding: 0;
+            border-right: 0;
+          }
+        }
+      }
+      .quick-signup {
+        display: inline-block;
+        vertical-align: top;
+        margin: 0 0 0 95px;
+        border: 2px solid $white;
+        background: transparent;
+        position: relative;
+        cursor: pointer;
+        display: none;
+        @include breakpoint(fourteen) { display: inline-block; }
+        a {
+          display: inline-block;
+          text-decoration: none;
+          padding: 10px 20px;
+          @include font-family($futura-book);
+          @include font(1, $white);
+          letter-spacing: 2px;
+          text-transform: uppercase;
+        }
+        &:before {
+          @include transition(all .25s ease-in-out);
+          content: " ";
+          position: absolute;
+          width: calc(100% - 150px);
+          height: calc(100% - 18px);
+          bottom: -7px;
+          right: -7px;
+          padding: 7px 0;
+          border-bottom: 2px solid $white;
+          border-right: 2px solid $white;
+          pointer-events: none;
+        }
+        &:hover {
+          background: $black;
+          border: 2px solid $black;
+          &:before {
+            width: calc(100% - 123px);
+            border-bottom: 2px solid $black;
+            border-right: 2px solid $black;
+          }
+          a { color: white; }
+        }
+      }
+    }
+    .mobile-elements {
+      .mobile-icon {
+        display: inline-block;
+        padding: 0;
+        margin: 0;
+        @include breakpoint(ten) { display: none; }
+        a {
+          text-decoration: none;
+          color: $white;
+          @include font-size(2.4);
+          @include breakpoint(tablet) {
+            @include font-size(3);
+          }
+          &:hover { color: $black; }
+        }
+      }
+    }
+  }
+}
+
+button#schedule-tour-popup-button{
+  position:relative;
+  color:#fff;
+  font-size:21px;
+  cursor:pointer;
+  top:-5px;
+  left:10px;
+  background:transparent;
+  border:none;
+  &:hover{
+    color:#000;
+  }
+}
+footer #pop-calendar{
+  position:relative;
+  font-size:19px;
+  cursor:pointer;
+  color:#78BFBE;
+  background:transparent;
+  border:none;
+  &:hover{
+    color:#fff;
+  }
+}
+
+// Priority Navigation
+#priority-menu {
+  display: none;
+  @include breakpoint(ten) {
+    display: block;
+    position: fixed;
+    right: 120px;
+    top: 50px;
+  }
+  ul {
+    li {
+      display: inline-block;
+      margin: 0 150px 0 0;
+      @include breakpoint(ten) { margin: 0 20px 0 0; }
+      @include breakpoint(fourteen) { margin: 0 30px 0 0; }
+      a {
+        @include transition(all .25s ease-in-out);
+        @include font-family($futura-book);
+        @include font(1.2, $white);
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        text-decoration: none;
+        @include breakpoint(fourteen) { @include font-size(1.4); }
+        &:hover {
+          color: $black;
+        }
+      }
+      &:last-child {
+        margin: 0;
+      }
+    }
+  }
+}
+
+// Main Navigation
+#nav-trigger {
+  right: 25px;
+  position: fixed;
+  z-index: 3;
+  cursor: pointer;
+  height: 36px;
+  width: 48px;
+  top: 30px;
+  @include breakpoint(tablet) { top: 35px; }
+  @include breakpoint(ten) { top: 40px; }
+  .trigger-wrap {
+    position: relative;
+    span {
+      margin: 0 auto;
+      display: block;
+      top: 8px;
+      height: 3px;
+      position: absolute;
+      background: $white;
+      opacity: 1;
+      @include transform(skew(-30deg));
+      @include transition(all .25s ease-in-out);
+
+      &:first-child, &:last-child { width: 32px; }
+      &:first-child {
+        top: 0px;
+        right: 0px;
+      }
+      &:nth-child(2) {
+        width: 25px;
+        left: 0;
+      }
+      &:last-child {
+        top: 16px;
+        right: 5px;
+      }
+    }
+  }
+  .menu-label, .close-label {
+    position: absolute;
+    margin: 0 auto;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    text-align: center;
+    text-transform: uppercase;
+    @include font-family($futura);
+    @include font(1.3, $white);
+  }
+  .menu-label { opacity: 1; }
+  .close-label { opacity: 0; }
+  &:hover {
+    .trigger-wrap {
+      span {
+        background: $black;
+        &:first-child { right: 10px; }
+        &:nth-child(2) {
+          width: 33px;
+          left: 6px;
+        }
+        &:last-child { right: 10px; }
+      }
+    }
+    .menu-label { color: $black; }
+  }
+
+  &.scroll {
+    &:hover {
+      .trigger-wrap {
+        span { background: $black; }
+      }
+      .menu-label { color: $black; }
+    }
+  }
+
+  // Active Menu
+  &.active {
+    .trigger-wrap {
+      span {
+        width: 31px;
+        @include transform-origin(center);
+        &:first-child, &:last-child {
+          @include transform(rotate(55deg));
+          top: 3px;
+          right: 9px;
+        }
+        &:nth-child(2) {
+          opacity: 0;
+          left: -15px;
+        }
+        &:last-child {
+          @include transform(rotate(-55deg));
+        }
+      }
+    }
+    // Active Trigger Hover
+    &:hover {
+      .trigger-wrap {
+        span { background: $white; }
+      }
+    }
+    .menu-label { opacity: 0; }
+    .close-label { opacity: 1; }
+  }
+}
+
+#navigation {
+  .nav-inner-wrap {
+    max-width: 1024px;
+    margin: 0 auto;
+  }
+}
+
+#main-menu-wrapper {
+  @extend %fill-fixed;
+  z-index: 3;
+  .menu-logo {
+    position: absolute;
+    top: 25px;
+    right: 0;
+    left: 0;
+    margin: 0 auto;
+    width: 87px;
+    z-index: 1;
+    @include breakpoint(tablet) { top: 27px; width: 99px; }
+    @include breakpoint(ten) { width: 119px; }
+    img { width: 100%; }
+  }
+  #background-color {
+    @extend %fill;
+    height: 100%;
+    background-color: rgba($green, .5);
+  }
+  #menu-background {
+    @extend %fill;
+    @extend %blend;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    .menu-img {
+      @extend %blend;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      height: 100%;
+      opacity: 0;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      &.active {
+        opacity: 1;
+      }
+    }
+  }
+  #main-menu-container {
+    @include box-sizing(border-box);
+    max-width: 1440px;
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+    display: none;
+    z-index: 3;
+  }
+}
+
+
+#navigation {
+  @extend %fill;
+  .nav-inner-wrap {
+    padding: 0 25px;
+    @include breakpoint(ten) {
+      padding: 0;
+    }
+    ul {
+      @include breakpoint(ten) {
+        @include column-count(2);
+        width: 75%;
+        max-height: 25rem;
+      }
+      li {
+        opacity: 0;
+        @include transition(all .25s ease-in-out);
+        display: inline-block;
+        margin: 0 20px 0 0;
+        @include breakpoint(ten) {
+          display: block;
+        }
+        a {
+          @include transition(all .25s ease-in-out);
+          @include font-family($futura-book);
+          @include font(1.8, $white);
+          line-height: 1.5;
+          letter-spacing: 2px;
+          text-transform: uppercase;
+          text-decoration: none;
+          position: relative;
+          display: inline-block;
+          @include breakpoint(tablet) {
+            @include font-size(3.6);
+            letter-spacing: 4px;
+          }
+          &:before {
+            content: '.';
+            position: absolute;
+            right: -10px;
+            bottom: 0;
+          }
+          &:after {
+            transition: width .3s ease-out;
+            content: '';
+            display: block;
+            height: 2px;
+            width: 0;
+            background: $white;
+          }
+          &:hover {
+            &:after {
+              width: 100%;
+            }
+          }
+        }
+
+        // After menu item has loaded.
+        &.loaded { opacity: 1; }
+      }
+    }
+  }
+}
+
+#resident-links {
+  margin: 25px 0 0;
+  padding: 25px 0 0;
+  border-top: 2px solid $white;
+  max-width: 250px;
+  @include breakpoint(tablet) {
+    margin: 45px 0 0;
+    padding: 30px 0 0;
+  }
+  a {
+    opacity: 0;
+    @include font-family($futura-book);
+    @include font(1.3, $white);
+    line-height: 1.5;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-decoration: none;
+    position: relative;
+    display: inline-block;
+    @include breakpoint(tablet) {
+      @include font-size(2);
+    }
+    &:after {
+      transition: width .3s ease-out;
+      content: '';
+      display: block;
+      height: 2px;
+      width: 0;
+      background: $white;
+    }
+    &:hover {
+      &:after {
+        width: 100%;
+      }
+    }
+    &.loaded {
+      opacity: 1;
+    }
+  }
+}
+
+.page-header {
+  position: relative;
+  z-index: 2;
+  .tablet { display: none; }
+  .desktop { display: none; }
+  @include breakpoint(tablet) {
+    .mobile { display: none; }
+    .tablet { display: block; }
+  }
+  @include breakpoint(ten) {
+    .tablet { display: none; }
+    .desktop { display: block; }
+  }
+  .canvas {
+    display: block;
+    height: 100%;
+    width: 100%;
+    visibility: hidden;
+  }
+  svg {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    // width: 100%;
+    // height: auto;
+    pointer-events: none;
+  }
+  .pre-title {
+    display: none;
+    @extend %absolute-center;
+    @include breakpoint(fourteen) {
+      display: block;
+      top: 130px;
+      text-align: center;
+      @include font-family($futura-book);
+      @include font(1.5, $white);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+    @include breakpoint(sixteen) { top: 145px; }
+  }
+  .header-content {
+    @extend %absolute-center;
+    bottom: 0;
+    text-align: center;
+    @include breakpoint(tablet) { bottom: 20px; }
+    @include breakpoint(tablet) { bottom: 30px; }
+    span {
+      color: $white;
+      display: inline-block;
+    }
+    .icon-mint-logo {
+      @include font-size(1.2);
+      @include breakpoint(tablet) { @include font-size(1.5); }
+    }
+    .icon-mint-diamond { @include font-size(2.25); }
+    .header-headline {
+      @include font-family($futura-book);
+      @include font(1.9, $white);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      line-height: 1.5;
+      margin: 0 0 10px;
+      @include breakpoint(mobileL) {
+        @include font-size(3);
+        margin: 0;
+        line-height: 2;
+      }
+      @include breakpoint(five) {}
+      @include breakpoint(ten) {
+        @include font-size(2.5);
+        line-height: 1.75;
+      }
+      @include breakpoint(twelve) {
+        @include font-size(3.5);
+        letter-spacing: .5rem;
+      }
+      @include breakpoint(sixteen) { @include font-size(4.5); }
+      @include breakpoint(nineteen) {
+        @include font-size(4.5);
+        line-height: 2;
+      }
+    }
+    .header-sub-headline {
+      @include font-family($futura-book);
+      @include font(1.5, $white);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      line-height: 1.75;
+      margin: 10px 0 40px 0;
+      br {
+        display: none;
+        @include breakpoint(ten){ display: block; }
+        @include breakpoint(fourteen){ display: none; }
+      }
+    }
+  }
+  .header-bottom {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    text-align: center;
+    @include breakpoint(tablet) {
+      bottom: 30px;
+    }
+    .header-line-break {
+      height: 65px;
+      margin: 0 auto 5px;
+      width: 35px;
+      @include breakpoint(five) { height: 135px; }
+      @include breakpoint(tablet) {
+        //height: 140px;
+        height: 100px;
+        margin: 0 auto 20px;
+      }
+      @include breakpoint(ten) { height: 75px; }
+      @include breakpoint(fourteen) {
+        //height: 125px;
+        height: 90px;
+        margin: 0 auto 30px;
+      }
+      @include breakpoint(sixteen) { height: 175px; }
+      @include breakpoint(nineteen) {
+        height: 205px;
+        margin: 0 auto 40px;
+      }
+      .background {
+        height: calc(100% - 7px);
+        background: url('../images/4x1bg.jpg') bottom center repeat-y transparent;
+        margin: -2px 0 0;
+      }
+    }
+    .scroll {
+      display: none;
+      @include breakpoint(tablet) {
+        display: block;
+      }
+      span { display: block; }
+      .scroll-title {
+        text-align: center;
+        @include font-family($futura-book);
+        @include font(.9, $white);
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        @include breakpoint(ten) { @include font-size(1.5); }
+      }
+      .icon-mint-triangle {
+        margin: 5px 0 0;
+        @include font-size(1.6);
+        @include transform(rotate(180deg));
+        color: $teal;
+        @include breakpoint(ten) { @include font-size(2.6); }
+      }
+    }
+  }
+  // Small Headers & Blog
+  &.small,
+  &.blog {
+    .header-content {
+      bottom: 0;
+      max-width: 75%;
+      @include breakpoint(tablet) {
+        max-width: 420px;
+      }
+      @include breakpoint(ten) {
+        max-width: 100%;
+      }
+    }
+    .header-bottom {
+      bottom: 0;
+      .header-line-break {
+        height: 65px;
+        margin: 0 auto 5px;
+        @include breakpoint(mobileL) { height: 175px; }
+        @include breakpoint(tablet) { height: 175px; }
+        @include breakpoint(ten) { height: 65px; }
+        @include breakpoint(fourteen) { height: 125px; }
+        @include breakpoint(sixteen) { height: 170px; }
+      }
+    }
+  }
+  &.ie {
+    svg{
+      height: inherit;
+    }
+  }
+}
+
+#page-content {
+  @include box-sizing(border-box);
+  padding: 110px 40px;
+  text-align: center;
+  position: relative;
+  @include breakpoint(tablet) {
+    padding: 110px 20px;
+  }
+  .title {
+    h1 {
+      @include font-family($futura-book);
+      @include font(2, $white);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin: 0 0 20px;
+      padding: 60px 0 0;
+      line-height: 1.75;
+      background: url('../images/headline-accent.png') center top no-repeat transparent;
+      @include breakpoint(tablet) {
+        margin: 0 0 30px;
+        padding: 0;
+        background: none;
+        span { padding: 0 45px; }
+        &:before, &:after {
+          content: url('../images/headline-accent-single.png');
+        }
+      }
+    }
+  }
+  .copy {
+    max-width: 970px;
+    margin: 0 auto;
+    @include font-family($futura-book);
+    @include font(1.5, $white);
+    line-height: 2;
+  }
+}
+
+#body-image {
+  border-top: 4px solid $white;
+  border-bottom: 4px solid $white;
+  height: 325px;
+  background-size: cover;
+  background-position: center;
+  @include breakpoint(tablet) {
+    height: auto;
+    background: none;
+  }
+  img {
+    display: none;
+    @include breakpoint(tablet) {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+  }
+}
+
+#interior-image.bg-image {
+  border-top: 4px solid $white;
+  border-bottom: 4px solid $white;
+  @include transition(background-size .25s ease-in-out);
+  background-size: 100%;
+  background-position: center;
+  .body-img {
+    width: 100%;
+  }
+  .img-bg {
+    @include transition(background-size .25s ease-in-out, opacity .25s ease-in-out);
+    opacity: 1;
+    background-size: 101%;
+    background-position: center;
+  }
+  // Image/Caption Hover
+  &:hover {
+    background-size: 102%;
+    .img-bg {
+      opacity: 0;
+      background-size: 102%;
+    }
+  }
+}
+
+#lists {
+  background: $lightgray;
+  text-align: center;
+  position: relative;
+  .top-line-break, .bottom-background {
+    @extend %absolute-center;
+  }
+  .top-line-break {
+    top: 0;
+    height: 75px;
+    width: 35px;
+    img {
+      margin: 15px 0 0;
+      @include breakpoint(tablet) {
+        margin: 30px 0 0;
+      }
+    }
+    .background {
+      background: url('../images/1x1bg.jpg') top center repeat-y transparent;
+      height: 45px;
+    }
+  }
+  .bottom-background {
+    height: 50px;
+    width: 4px;
+    background: $white;
+    bottom: 0;
+  }
+  .list-content {
+    @include box-sizing(border-box);
+    max-width: 1100px;
+    padding: 90px 20px 50px;
+    margin: 0 auto;
+
+    @include breakpoint(tablet) {
+      padding: 110px 50px 100px;
+    }
+    .list-heading {
+      @include font-family($futura-book);
+      @include font(1.7, $teal);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin: 0 0 25px;
+      @include breakpoint(tablet) {
+        margin: 0 0 50px;
+        @include font-size(1.9);
+      }
+    }
+    ul {
+      padding: 0 40px 20px;
+      @include breakpoint(tablet) {
+        padding: 0;
+        display: inline-block;
+        vertical-align: top;
+        width: calc(50% - 40px);
+        &:first-of-type { padding: 0 35px 0 0; }
+        &:last-of-type { padding: 0 0 0 35px; }
+      }
+      li {
+        @include font-family($futura-book);
+        @include font(1.4, $black);
+        line-height: 1.5;
+        margin: 0 0 20px;
+        text-align: center;
+        @include breakpoint(tablet) {
+          text-align: left;
+          @include font-size(1.9);
+          margin: 0 0 30px;
+          background: url('../images/bullet.png') 0 5px no-repeat transparent;
+          padding: 0 0 0 25px;
+        }
+        &:last-child {
+          margin: 0;
+        }
+        sup {
+          @include font-size(1);
+          vertical-align: top;
+        }
+        &.bold { font-weight: 700; }
+        ul {
+          width: 100%;
+          font-weight: 300;
+          &:first-of-type { padding: 0 0 0 10px; }
+          li {
+            background: url('../images/dash.png') 0 15px no-repeat transparent;
+            padding: 0 0 0 15px;
+            margin: 0 0 15px;
+            sup {
+              @include font-size(1);
+              vertical-align: top;
+            }
+          }
+        }
+      }
+    }
+    .disclaimer {
+      margin: 25px 0 0;
+      max-width: 50%;
+      @include font-family($futura-book);
+      @include font(1.2, $black);
+      line-height: 1.5;
+      @include breakpoint(tablet) {
+        margin: 50px 0 0;
+        text-align: left;
+        @include font-size(1.4);
+      }
+    }
+  }
+}
+
+#neighborhood {
+  #page-content {
+    padding: 25px 40px;
+    @include breakpoint(tablet) {
+      padding: 110px 40px;
+    }
+    .content-arrow,
+    .content-arrow-up {
+      display: none;
+      @include breakpoint(tablet) { display: block; }
+    }
+  }
+}
+
+#map-container {
+  border-top: 4px solid $white;
+  position: relative;
+  .mobile-map {
+    .map-image {
+      height: 264px;
+      background-position: center;
+      display: block;
+      @include breakpoint(tablet) {
+        display: none;
+      }
+    }
+  }
+  #categories-container {
+    @extend %absolute-center;
+    top: 55px;
+    text-align: center;
+    z-index: 1;
+    display: none;
+    @include breakpoint(tablet) { display: block; }
+    ul#categories {
+      li {
+        min-width: 220px;
+        display: inline-block;
+        margin: 0 4px;
+        border: 2px solid $black;
+        background: rgba($white, .7);
+        padding: 10px;
+        cursor: pointer;
+        @include box-sizing(border-box);
+        span {
+          @include font-family($futura-book);
+          @include font(1.6, $black);
+          text-transform: uppercase;
+        }
+        &:hover, &.active {
+          background: rgba($aqua, .7);
+          border: 2px solid $white;
+          span {
+            color: $white;
+          }
+        }
+      }
+    }
+  }
+  #map {
+    display: none;
+    @include breakpoint(tablet) {
+      display: block;
+      height: 700px;
+    }
+  }
+}
+
+#neighborhood-links {
+  background: $teal;
+  text-align: center;
+  display: none;
+  @include breakpoint(tablet) {
+    border-top: 4px solid $white;
+    display: block;
+  }
+  .link-wrapper {
+    padding: 100px 0;
+    .neighborhood-heading {
+      @include font-family($futura-book);
+      @include font(2.2, $white);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin: 0 0 50px;
+    }
+    .neighborhood-button {
+      @include square(335,353,1);
+      @include appearance(none);
+      background: none;
+      border: 2px solid $white;
+      &:first-of-type { margin: 0 25px 0 0; }
+      &:last-of-type { margin: 0 0 0 25px; }
+      position: relative;
+      a {
+        display: block;
+        background-size: 100%;
+        background-position: center;
+        .neighborhood-link {
+          display: inline-block;
+          @include square(316,333,1);
+          .link {
+            @include font-family($futura-book);
+            @include font(1.8, $white);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            line-height: 1.5;
+            margin: 0 auto;
+            position: relative;
+            span {
+              @extend %absolute-center;
+              @include transform(rotate(90deg));
+              color: $white;
+              bottom: -30px;
+              margin: 15px 0 0 0;
+              display: block;
+              @include font-size(1.7);
+            }
+          }
+        }
+      }
+      &:hover{
+        a {
+          background-size: 104%;
+          .neighborhood-link {
+            .link {
+              span {
+                margin: 15px 0 0 5px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+
+
+// Contact form
+#frm_form_5_container {
+  max-width: 500px;
+  margin: 0 auto;
+  form {
+    .form-field {
+      position: relative;
+      input[type="text"],
+      input[type="tel"],
+      input[type="email"],
+      select {
+        @include appearance(none);
+        @include box-sizing(border-box);
+        @include font-family($futura-book);
+        @include font(1.6, $gray);
+        @include input-placeholder { color: $gray; }
+        width: 100%;
+        padding: 25px 15px 15px;
+        background: none;
+        border: none;
+        border-radius: 0;
+        border-bottom: 2px solid $teal;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        text-align: center;
+        &:invalid, &:required, &:focus {
+          @include appearance(none);
+          box-shadow: none;
+          outline: none;
+        }
+        @include breakpoint(tablet) {
+          @include font-size(2);
+        }
+      }
+      .frm_error {
+        @include font-family($futura-book);
+        @include font(1.2, $gray);
+        text-align: center;
+        bottom: -15px;
+        position: absolute;
+      }
+    }
+    .form-bottom {
+      @include breakpoint(tablet) { margin: 45px 0 0; }
+      .apartment-type {
+        display: inline-block;
+        width: 100%;
+        select {
+          padding: 14px 15px;
+          border-radius: 0;
+          background: url('../images/select-arrow.png') center right 15px no-repeat transparent;
+          border: 0;
+          border-bottom: 2px solid $teal;
+          @include breakpoint(tablet) {
+            border: 2px solid $teal;
+          }
+        }
+        @include breakpoint(tablet) { width: calc(100% - 163px); }
+      }
+      .pets {
+        margin: 18px auto 0;
+        width: 160px;
+        display: inline-block;
+        @include breakpoint(tablet) { margin: 18px 0 0; }
+        label {
+          @include font-family($futura-book);
+          @include font(2, $gray);
+          text-transform: uppercase;
+          letter-spacing: 2px;
+          display: inline-block;
+          margin: 0 15px;
+          .frm_required { display: none; }
+        }
+        .frm_opt_container {
+          display: inline-block;
+          .frm_radio {
+            display: inline-block;
+            label {
+              @include font(1.5, $gray);
+              margin: 0;
+              border: 2px solid $teal;
+              background: transparent;
+              @include transition(all .25s ease-in-out);
+              &:hover, &.clicked {
+                color: $white;
+                background: $teal;
+              }
+            }
+            &:first-child {
+              margin: 0 10px 0 0;
+              label {
+                padding: 4px 5px 4px 6px;
+              }
+            }
+            &:last-child {
+              label { padding: 4px 3px 4px 5px; }
+            }
+            input[type="radio"] { display: none; }
+          }
+        }
+        .frm_error {
+          @include font-family($futura-book);
+          @include font(1.2, $gray);
+          margin: 5px 0px 0 8px;
+        }
+
+      }
+    }
+    .frm_submit {
+      margin: 45px 0 0;
+      clear: both;
+      .submit-button {
+        position: relative;
+        width: 100px;
+        margin: 0 auto;
+        input[type="submit"] {
+          width: 100px;
+          @include font-family($futura-book);
+          @include font(1, $black);
+          @include appearance(none);
+          @include transition(all .25s ease-in-out);
+          border-radius: 0;
+          text-transform: uppercase;
+          background: transparent;
+          padding: 14px 15px;
+          border: 2px solid $teal;
+        }
+        &:before {
+          @include transition(all .25s ease-in-out);
+          content: " ";
+          position: absolute;
+          width: calc(100% - 72px);
+          height: calc(100% - 28px);
+          bottom: -6px;
+          right: -6px;
+          padding: 6px 0;
+          border-bottom: 2px solid $teal;
+          border-right: 2px solid $teal;
+          pointer-events: none;
+        }
+        &:hover {
+          input[type="submit"] {
+            color: $white;
+            background: $teal;
+            cursor: pointer;
+          }
+          &:before {
+            width: calc(100% - 67px);
+          }
+        }
+      }
+      .frm_ajax_loading {
+        display: block;
+        margin: 0 auto;
+      }
+    }
+  }
+}
+
+#contact-content {
+  .contact-wrapper {
+    text-align: center;
+    padding: 25px 0;
+    @include breakpoint(tablet) {
+      padding: 110px 0 100px;
+    }
+    .column {
+      max-width: 250px;
+      width: 100%;
+      min-height: 105px;
+      display: none;
+      vertical-align: top;
+      @include font-family($futura-book);
+      @include font(1.5, $white);
+      line-height: 1.75;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      &:last-of-type {
+        display: inline-block;
+      }
+      a {
+        color: $white;
+        text-decoration: none;
+      }
+      @include breakpoint(ten) {
+        display: inline-block;
+        &:nth-child(2) {
+          border-right: 1px solid $white;
+          border-left: 1px solid $white;
+          margin: 0 25px;
+          padding: 0 25px;
+        }
+      }
+      .address a, .phone a, #leasing-address a {
+        span {
+          display: block;
+          &.break { display: none;}
+        }
+        &:hover {
+          color: $teal;
+        }
+      }
+      .title {
+        color: $teal;
+      }
+    }
+    .copy {
+      max-width: 280px;
+      margin: 20px auto;
+      @include font-family($futura-book);
+      @include font(1.5, $white);
+      line-height: 1.75;
+      @include breakpoint(tablet) {
+        margin: 70px auto 90px;
+        max-width: 500px;
+      }
+      @include breakpoint(ten) {
+        max-width: 100%;
+      }
+    }
+  }
+  #contact-form {
+    padding: 0 25px;
+    @include box-sizing(border-box);
+    @include breakpoint(tablet) {
+      padding: 0;
+    }
+    #frm_form_5_container {
+      .apartment-type, .pets {
+        display: block;
+        @include breakpoint(tablet) {
+          display: inline-block;
+        }
+      }
+    }
+  }
+}
+
+#thank-you-content {
+  position: relative;
+  .content-arrow-up {
+    height: 30px;
+  }
+  .thank-you-wrapper {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 125px 0 145px;
+    .title {
+      @include font-family($futura-book);
+      @include font(4.8, $white);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin: 0 0 50px;
+    }
+    .copy {
+      @include font-family($futura-book);
+      @include font(1.5, $white);
+      line-height: 1.75;
+    }
+  }
+}
+
+// Contact Page Form Overrides
+.page-contact {
+  #frm_form_5_container {
+    form {
+      .frm_submit {
+        .submit-button {
+          input[type="submit"] {
+            color: $white;
+          }
+        }
+      }
+    }
+  }
+}
+
+.content-arrow, .content-arrow-up, .content-break {
+  @extend %absolute-center;
+  z-index: 2;
+  .background {
+    background: url('../images/1x1bg.jpg') top center repeat-y transparent;
+    height: 100%;
+    margin: -4px 0 0;
+  }
+}
+.content-arrow {
+  top: 0;
+  height: 60px;
+  width: 80px;
+}
+.content-arrow-up {
+  bottom: 0;
+  height: 60px;
+  width: 20px;
+  .background {
+    background: url('../images/1x1bg.jpg') bottom center repeat-y transparent;
+    margin: -12px 0 0;
+  }
+}
+.content-break {
+  bottom: 0;
+  height: 100px;
+  width: 35px;
+  .background { background: url('../images/4x1bg.jpg') bottom center repeat-y transparent; }
+}
+
+#home {
+  @include box-sizing(border-box);
+  #home-content {
+    background: $black;
+    pointer: relative;
+    z-index: 1;
+    .content-arrow {
+      display: none;
+      @include breakpoint(ten) {
+        display: block;
+        .background {
+          background: url('../images/4x1bg.jpg') top center repeat-y transparent;
+        }
+      }
+    }
+    .left {
+      @include breakpoint(ten) { width: 50%; }
+      .inner-wrap {
+        padding: 25px 40px;
+        text-align: center;
+        @include breakpoint(tablet) {
+          padding: 25px 20px;
+        }
+        @include breakpoint(ten) {
+          padding: 0 55px 0 0;
+          max-width: 430px;
+          float: right;
+          margin: -20px 0 0;
+          text-align: left;
+        }
+        @include breakpoint(fourteen) {
+          padding: 0 120px 0 0;
+          max-width: 485px;
+        }
+        h1 {
+          @include font-family($futura);
+          @include font(2, $white);
+          letter-spacing: 2px;
+          text-transform: uppercase;
+          line-height: 1.5;
+          padding: 60px 0 20px;
+          background: url('../images/headline-accent.png') center top no-repeat transparent;
+          @include breakpoint(tablet) {
+            @include font-size(1.8);
+            margin: 0;
+            padding: 20px 0;
+            background: none;
+            span { padding: 0 35px; }
+            &:before, &:after {
+              content: url('../images/headline-accent-single.png');
+            }
+          }
+          @include breakpoint(ten) {
+            @include font-size(2);
+            margin: 0 0 20px;
+            padding: 5px 0 0 40px;
+            background: url('../images/headline-accent.png') 0 0 no-repeat transparent;
+            span { padding: 0; }
+            &:before, &:after {
+              content: '';
+            }
+          }
+        }
+        p {
+          @include font-family($futura-book);
+          @include font(1.4, $white);
+          line-height: 2;
+          @include breakpoint(tablet) {
+            padding: 0 40px;
+          }
+          @include breakpoint(ten) {
+            padding: 0 0 0 40px;
+          }
+        }
+      }
+    }
+    .right {
+      display: inline-block;
+      width: 100%;
+      position: relative;
+      @include breakpoint(ten) {
+        margin: -35% 0 0;
+      }
+      .bg-image {
+        @include transition(background-size .25s ease-in-out);
+        background-size: 100%;
+        background-position: center;
+        .body-img {
+          width: 100%;
+        }
+        .body-img-bg {
+          @include transition(background-size .25s ease-in-out, opacity .25s ease-in-out);
+          opacity: 1;
+          background-size: 100%;
+          background-position: center;
+        }
+      }
+      .caption {
+        position: absolute;
+        bottom: 20px;
+        left: 20px;
+        @include font-family($futura-book);
+        @include font(1.8, $white);
+        text-transform: uppercase;
+        font-style: italic;
+        line-height: 2;
+        opacity: 0;
+      }
+
+      // Image/Caption Hover
+      &:hover {
+        .bg-image {
+          background-size: 102%;
+          .body-img-bg {
+            opacity: 0;
+            background-size: 102%;
+          }
+        }
+        .caption {
+          left: 30px;
+          opacity: 1;
+        }
+      }
+    }
+  }
+
+  #home-contact-form {
+    background: url('../images/home-contact-bg-1920x1200.jpeg') bottom right no-repeat transparent;
+    background-size: cover;
+    text-align: center;
+    padding: 0 40px 200px;
+    @include breakpoint(tablet) {
+      padding: 0 0 200px
+    }
+    .mini-border {
+      width: 4px;
+      height: 50px;
+      background: $white;
+      margin: 0 auto;
+    }
+    .icon-mint-logo {
+      margin: 20px auto 0;
+      @include font-size(1.5);
+      color: $teal;
+      display: inline-block;
+    }
+    .headline {
+      max-width: 280px;
+      margin: 0 auto;
+      @include font-family($futura-book);
+      @include font(1.9, $teal);
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      line-height: 1.75;
+      @include breakpoint(tablet) { @include font-size(3); }
+      @include breakpoint(ten) { @include font-size(4.5); }
+    }
+    .copy {
+      max-width: 535px;
+      margin: 25px auto 0;
+      @include font-family($futura-book);
+      @include font(1.4, $black);
+      line-height: 2;
+      @include breakpoint(tablet) {
+        @include font-size(1.5);
+      }
+    }
+
+    // Hide a couple of fields on the mobile homepage.
+    #frm_form_5_container {
+      .apartment-type,
+      .pets {
+        display: block;
+        @include breakpoint(tablet) {
+          display: inline-block;
+        }
+      }
+    }
+  }
+}
+
+#call-to-actions {
+  position: relative;
+  overflow: hidden;
+  border-top: 4px solid $white;
+  border-bottom: 4px solid $white;
+  // max-height: 270px;
+  @include breakpoint(tablet) {
+    max-height: 100%;
+    min-height: 389px;
+  }
+  @include breakpoint(ten) {
+    min-height: 100%;
+  }
+  .cta-bg-wrapper {
+    height: 100%;
+    width: auto;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    .background {
+      @include box-sizing(border-box);
+      width: 100%;
+      display: inline-block;
+      @include breakpoint(tablet) {
+        width: 50%;
+      }
+      .img-wrapper {
+        position: relative;
+        .border-top, .border-bottom {
+          display: none;
+          @include breakpoint(tablet) {
+            display: block;
+            position: absolute;
+            width: 2px;
+            height: calc(100% - 70px);
+            background: $white;
+          }
+        }
+        img {
+          display: none;
+          @include breakpoint(tablet) {
+            display: inline-block;
+            width: 100%;
+          }
+        }
+      }
+      &.left {
+        .img-wrapper {
+          .border-top { top: 0; right: 0; }
+          .border-bottom { display: none; }
+        }
+      }
+      &.right {
+        display: none;
+        @include breakpoint(tablet) {
+          display: inline-block;
+        }
+        .img-wrapper {
+          .border-top { top: 0; left: 0; }
+          .border-bottom { display: none; }
+        }
+      }
+    }
+    .icon-mint-triangle {
+      display: none;
+      @extend %absolute-center;
+      @include breakpoint(tablet) {
+        display: block;
+        width: 39px;
+        border-bottom: 2px solid $white;
+        @include font-size(1.8);
+        bottom: 50px;
+        z-index: 2;
+        text-align: center;
+        @include transform(rotate(180deg));
+        color: $white;
+      }
+    }
+
+
+    .cta-link-wrapper {
+      width: 100%;
+      position: absolute;
+      top: 50%;
+      right: 0;
+      left: 0;
+      margin: -61px auto 0;
+      text-align: center;
+      @include breakpoint(tablet) {
+        margin: -69px auto 0;
+      }
+      @include breakpoint(fourteen) {
+        margin: -100px auto 0;
+      }
+      a {
+        display: inline-block;
+        @include transform(rotate(45deg));
+        &:first-of-type {
+          margin: 0 30px 0 0;
+          @include breakpoint(tablet) { margin: 0 15% 0 0; }
+          @include breakpoint(ten) { margin: 0 175px 0 0; }
+          @include breakpoint(fourteen) { margin: 0 260px 0 0; }
+        }
+        &:last-of-type {
+          margin: 0 0 0 30px;
+          @include breakpoint(tablet) { margin: 0 0 0 15%; }
+          @include breakpoint(ten) { margin: 0 0 0 175px; }
+          @include breakpoint(fourteen) { margin: 0 0 0 260px; }
+        }
+        .cta-button {
+          @include appearance(none);
+          padding: 0;
+          border: 4px solid $white;
+          background: rgba($white, .75);
+          cursor: pointer;
+          background-size: 0% 0%;
+          @include breakpoint(tablet) {
+            margin: 0;
+          }
+          .cta-link {
+            @include transform(rotate(-45deg));
+            display: inline-block;
+            @include square(90,90,1);
+            @include breakpoint(tablet) {
+              @include square(125,125,1);
+            }
+            @include breakpoint(fourteen) {
+              @include square(190,190,1);
+            }
+            .link {
+              @include font-family($futura-book);
+              @include font(1.4, $black);
+              letter-spacing: 2px;
+              text-transform: uppercase;
+              line-height: 1.5;
+              max-width: 110px;
+              margin: 0 auto;
+              position: relative;
+              @include breakpoint(tablet) {
+                @include font-size(1.8);
+              }
+              span {
+                @extend %absolute-center;
+                @include transform(rotate(90deg));
+                color: $black;
+                bottom: -20px;
+                margin: 15px 0 0 0;
+                width: 100%;
+                border: none;
+                display: block;
+                @include font-size(1.3);
+                @include breakpoint(tablet) {
+                  bottom: -30px;
+                  @include font-size(1.7);
+                }
+              }
+            }
+          }
+        }
+        // Button Hover
+        &:hover {
+          background: rgba($teal, .75);
+          background-size: 100% 100%;
+          .cta-button {
+            background: none;
+            .cta-link .link {
+              color: $white;
+              span {
+                color: $white;
+                margin: 15px 0 0 5px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// Homepage CTA Override
+.home {
+  #call-to-actions {
+    max-height: 100%;
+    .cta-bg-wrapper {
+      .background {
+        .img-wrapper {
+          .border-top, .border-bottom {
+            height: calc(50% - 95px);
+            @include breakpoint(fourteen) {
+              height: calc(50% - 140px);
+            }
+          }
+          img {
+            height: auto;
+            width: 100%;
+          }
+        }
+        &.left {
+          .img-wrapper {
+            .border-bottom { display: block; bottom: 0; right: 0; }
+          }
+        }
+        &.right {
+          .img-wrapper {
+            .border-bottom { display: block; bottom: 0; left: 0; }
+          }
+        }
+      }
+    }
+    .cta-link-wrapper {
+      margin: -230px auto 0;
+      @include breakpoint(tablet){ margin: -69px auto 0; }
+      @include breakpoint(fourteen){ margin: -100px auto 0; }
+      a {
+        display: block;
+        margin: 0 auto;
+        width: 100px;
+        @include breakpoint(tablet) {
+          display: inline-block;
+          width: auto;
+        }
+        &:first-of-type {
+          margin: 0 auto 75px;
+          @include breakpoint(tablet) { margin: 0 15% 0 0; }
+          @include breakpoint(ten) { margin: 0 125px 0 0; }
+          @include breakpoint(fourteen) { margin: 0 260px 0 0; }
+        }
+        &:last-of-type {
+          margin: 75px auto 0;
+          @include breakpoint(tablet) { margin: 0 0 0 15%; }
+          @include breakpoint(ten) { margin: 0 0 0 125px; }
+          @include breakpoint(fourteen) { margin: 0 0 0 260px; }
+        }
+        .cta-button {
+          display: block;
+          margin: 0 auto;
+          @include breakpoint(tablet){
+            display: inline-block;
+          }
+        }
+      }
+    }
+    .icon-mint-triangle { display: none; }
+  }
+}
+
+.page-template-gallery {
+  height:100%;
+  #gallery-container {
+    position: relative;
+    margin: 0 auto;
+    max-width: 1260px;
+    padding: 100px 0 115px;
+    .content-arrow {
+      display: none;
+      @include breakpoint(tablet) {
+        display: block;
+        height: 45px;
+      }
+    }
+    .content-arrow-up { height: 35px; }
+    #categories {
+      @extend %cf;
+      position: relative;
+      text-align: center;
+      z-index:2;
+      margin: 0 auto 23px;
+      padding: 0 0 30px;
+      border-bottom: 1px solid $gray;
+      li {
+        @include transition(all 0.25s ease-in-out);
+        @include font-family($futura-book);
+        @include font(1.5, $white);
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        background-color: transparent;
+        display: block;
+        cursor: pointer;
+        border: 2px solid $white;
+        padding: 10px;
+        max-width: 215px;
+        text-align: center;
+        margin: 0 auto 5px;
+        &:hover, &.active {
+          background: $teal;
+          color: $white;
+        }
+        @include breakpoint(tablet) {
+          display: inline-block;
+          min-width: 15%;
+          margin: 0 5px;
+          @include font-size(1.6);
+          &:first-child { margin-left: 0; }
+          &:last-child { margin-right: 0; }
+        }
+        @include breakpoint(ten) { min-width: 215px; }
+      }
+    }
+    #overlap {
+      position:relative;
+      z-index: 2;
+      @include breakpoint(tablet) {
+        margin: 0 50px;
+        min-height: calc(100% - 420px);
+      }
+      #gallery-wrapper {
+        text-align: center;
+        #gallery {
+          #loader {
+            @include font-size(4);
+            color: $white;
+            text-align: center;
+          }
+          #image-container {
+            .category-images {
+              @extend %cf;
+              .image {
+                @include box-sizing(border-box);
+                @include font-size(0);
+                display: inline-block;
+                width: calc(100% - 20px);
+                border: 2px solid $white;
+                margin: 5px 10px;
+                cursor: pointer;
+                position: relative;
+                @include breakpoint(ten) {
+                  width: 225px;
+                  margin: 7px;
+                }
+                &.active {
+                  @include breakpoint(phones){
+                    display: block;
+                    position: relative;
+                    z-index: 2;
+                  }
+                }
+                img {
+                  width: 100%;
+                  height: auto;
+                  &.thumb-image {
+                    display: none;
+                    @include breakpoint(ten){
+                      display: block;
+                    }
+                  }
+                  &.full-image {
+                    display: block;
+                    @include breakpoint(ten){
+                      display: none;
+                    }
+                  }
+                }
+              }
+            }
+          }
+          #next-image,
+          #prev-image {
+            display: none;
+            position: absolute;
+            top: 50%;
+            width: 30px;
+            height: 100px;
+            margin-top: -50px;
+            background-color: $teal;
+            background-repeat: no-repeat;
+            background-position: center;
+            border: none;
+            cursor: pointer;
+            z-index: 2;
+          }
+          #prev-image {
+            left: 0;
+            background-image: url(../images/bixby-mini-gallery-prev.png);
+          }
+          #next-image {
+            right: 0;
+            background-image: url(../images/bixby-mini-gallery-next.png);
+          }
+        }
+      }
+    }
+  }
+  // Lightbox.
+  #lightbox-wrapper {
+    @extend %fill;
+    position: fixed;
+    z-index: 4000;
+    text-align: center;
+    #lightbox-background {
+      @extend %fill;
+      background-color: rgba($black,0.75);
+      z-index: 1;
+    }
+    #lightbox-container {
+      margin: 0 auto;
+      position: relative;
+      display: inline-block;
+      z-index: 2;
+      max-width: 80%;
+      border: 2px solid $white;
+      padding: 8px;
+      #lightbox {
+        position: relative;
+        img {
+          max-width: 100%;
+          max-height: 100%;
+          width: auto;
+          height: auto;
+        }
+        #lightbox-caption {
+          @include box-sizing(border-box);
+          @include font-size(1.6);
+          @include font-family($futura-book);
+          @include font(1.2, $white);
+          letter-spacing: 2px;
+          text-transform: uppercase;
+          background-color: $black;
+          margin: 5px auto 0;
+          text-align: center;
+          width: 100%;
+          padding: 10px 15px;
+        }
+        #lightbox-close {
+          @include transition(0.25s ease-in-out);
+          @include font-size(1.2);
+          position: absolute;
+          top: -35px;
+          right: -30px;
+          cursor: pointer;
+          padding: 5px;
+          color: $white;
+          &:hover {
+            color: $aqua;
+            @include transform(scale(1.3));
+          }
+        }
+        #lightbox-next,
+        #lightbox-prev {
+          position: absolute;
+          padding: 0;
+          top: 50%;
+          width: 49px;
+          height: 52px;
+          margin-top: -26px;
+          background-color: $black;
+          background-repeat: no-repeat;
+          background-position: center;
+          border: none;
+          cursor: pointer;
+          .fa {
+            color: $white;
+            @include font-size(3.4);
+            position: absolute;
+            top: 50%;
+            margin: -17px auto 0;
+            right: 0;
+            left: 0;
+          }
+          &:hover {
+            .fa { color: $aqua; }
+          }
+        }
+        #lightbox-prev {
+          left: 0;
+          &:hover {
+            .fa { left: -10px; }
+          }
+        }
+        #lightbox-next {
+          right: 0;
+          &:hover {
+            .fa { right: -10px; }
+          }
+        }
+      }
+    }
+  }
+}
+
+// Floor Plans
+.page-template-floor-plans {
+  .floor-plans-outer-wrapper {
+    position: relative;
+    padding: 25px 0;
+    @include breakpoint(tablet) {
+      padding: 100px 0 115px;
+    }
+    .content-arrow {
+      display: none;
+      @include breakpoint(tablet) {
+        display: block;
+      }
+    }
+    .inner {
+      position: relative;
+      z-index: 2;
+      #search-form-container {
+        #search-form {
+          text-align: center;
+          .search-input-container {
+            display: inline-block;
+            .input-wrapper {
+              @include box-sizing(border-box);
+              position: relative;
+              max-width: 175px;
+              width: 100%;
+              padding: 15px 5px 5px;
+              label {
+                display: inline-block;
+                @include font-family($futura-book);
+                @include font(1.5, $white);
+                text-transform: uppercase;
+                letter-spacing: 2px;
+                display: inline-block;
+              }
+              input {
+                width: calc(100% - 36px);
+                margin: 0 0 0 15px;
+                display: inline-block;
+                background: none;
+                border: none;
+                @include font-family($futura-book);
+                @include font(1.5, $white);
+                text-transform: uppercase;
+                letter-spacing: 2px;
+                &#move-in-date {
+                  cursor: pointer;
+                }
+                @include input-placeholder {
+                  color: $white;
+                }
+              }
+            }
+          }
+
+          #move-in-date-container,
+          #max-rent-container {
+            display: none;
+            @include breakpoint(ten) {
+              display: inline-block;
+              border: none;
+              vertical-align: top;
+              border-bottom: 1px solid $white;
+              height: 41px;
+            }
+          }
+
+          #checkboxes-container {
+            text-align: center;
+            position: relative;
+            border: 2px solid $white;
+            @include breakpoint(ten) {
+              border: none;
+              margin: 0 25px;
+            }
+            #mobile-label {
+              @include font-family($futura-book);
+              @include font(1.4, $white);
+              text-transform: uppercase;
+              letter-spacing: 2px;
+              padding: 12px 38px;
+              display: block;
+              @include breakpoint(ten){ display: none; }
+            }
+            #mobile-category-overlay {
+              @extend %fill;
+              @include box-sizing(border-box);
+              z-index: 10;
+              cursor: pointer;
+              padding: 12px 38px;
+              text-align: right;
+              i {
+                @include transition(all 0.25s ease-in-out);
+                @include font-size(2);
+                color: $white;
+                position: absolute;
+                top: 7px;
+                right: 10px;
+              }
+              @include breakpoint(ten) {
+                display: none;
+              }
+            }
+            .checkbox-container {
+              @include box-sizing(border-box);
+              @include transition(all 0.25s ease-in-out);
+              display: block;
+              max-height: 0;
+              width: auto;
+              overflow: hidden;
+              background: none !important;
+              margin: 0;
+              &.active {
+                max-height: 100%;
+              }
+              @include breakpoint(ten) {
+                overflow: visible;
+                display: inline-block;
+                margin: 0 5px 10px;
+                position: relative;
+              }
+              &:first-child {
+                margin-left: 0;
+              }
+              label {
+                @include transition(all 0.25s ease-in-out);
+                @include font-family($futura-book);
+                @include font(1.3, $white);
+                letter-spacing: 2px;
+                display: block;
+                background: none;
+                padding: 10px 25px;
+                max-width: 200px;
+                position: relative;
+                text-transform: uppercase;
+                cursor: pointer;
+                @include breakpoint(ten) {
+                  width: 50px;
+                  &:hover,
+                  &.active {
+                    background-color: $teal;
+                  }
+                }
+                @include breakpoint(ten) {
+                  border: 2px solid $white;
+                }
+              }
+              input {
+                display: none;
+                &:checked + label {
+                  @include breakpoint(ten) {
+                    background-color: $teal;
+                  }
+                }
+              }
+            }
+            &.show {
+              #mobile-label {
+                display: none;
+              }
+              #mobile-category-overlay {
+                z-index: 0;
+                i {
+                  @include transform(rotate(180deg));
+                  @include font-size(2);
+                  color: $white;
+                }
+              }
+              .checkbox-container {
+                max-height: 100%;
+                label {
+                  border: none;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    #floor-plans-wrapper {
+      background-color: $black;
+      margin: 0 auto;
+      max-width: 1260px;
+      padding: 50px 0;
+      &.fill {
+        height: 100%;
+        overflow: hidden;
+      }
+      #floor-plans {
+        padding: 0 20px;
+        @include breakpoint(ten) {
+          padding: 0 50px;
+        }
+        #results {
+          @extend %cf;
+          width: 100%;
+          @include breakpoint(tablet) {
+            border-top: 1px solid $white;
+            margin: 0 auto;
+            width: 90%;
+          }
+          @include breakpoint(ten) {
+            border-top: none;
+            width: 100%;
+          }
+          #results-head {
+            display: none;
+            @include breakpoint(ten) {
+              @include font-size(1.2);
+              color: $lightgray;
+            }
+            th {
+              @include font-family($futura-book);
+              @include font(1.5, $aqua);
+              text-transform: uppercase;
+              letter-spacing: 2px;
+              padding-bottom: 10px;
+              border-bottom: 1px solid $darkgray;
+              cursor: pointer;
+              &:first-of-type { padding: 0 0 10px 55px; }
+              .sort-indicator {
+                display: none;
+                padding-left: 15px;
+                i {
+                  @include transition(all 0.25s ease-in-out);
+                }
+              }
+              &.headerSortDown {
+                .sort-indicator {
+                  display: inline;
+                }
+              }
+              &.headerSortUp {
+                .sort-indicator {
+                  display: inline;
+                  i { @include transform(rotate(180deg)); }
+                }
+              }
+            }
+          }
+          tr {
+            border-bottom: 1px solid $darkgray;
+            @include breakpoint(ten) {
+              width: 100%;
+            }
+            td {
+              @include font-family($futura-book);
+              @include font(1.5, $white);
+              text-transform: uppercase;
+              letter-spacing: 2px;
+              line-height: 1.75;
+              padding: 0;
+              display: block;
+              border-bottom: none;
+              &.name {
+                padding: 10px 0 0;
+                @include font-size(3.7);
+                color: $aqua;
+              }
+              @include breakpoint(tablet) {
+                padding: 0 45px;
+                &.name {
+                  padding: 10px 45px 0;
+                }
+              }
+              @include breakpoint(ten) {
+                padding: 0;
+                &.name {
+                  padding: 10px 0 0;
+                }
+              }
+              &.action {
+                button {
+                  @include transition(all 0.25s ease-in-out);
+                  @include font-family($futura-book);
+                  @include font(1.1, $gray);
+                  text-transform: uppercase;
+                  letter-spacing: 2px;
+                  border: none;
+                  background: none;
+                  padding: 5px 0 25px;
+                  position: relative;
+                  cursor: pointer;
+                  &:hover { color: $aqua; }
+                  &:after {
+                    content: " >";
+                  }
+                }
+              }
+              @include breakpoint(ten) {
+                display: table-cell;
+                padding: 15px 0;
+                border-bottom: 1px solid $darkgray;
+                &:first-of-type { padding: 15px 0 15px 55px; }
+                &.name {
+                  @include font-size(1.5);
+                  color: $white;
+                }
+                &.action {
+                  button {
+                    padding: 5px;
+                    &:after {
+                      content: "";
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+
+        // No Results
+        #no-results {
+          @include transition(display .25s ease-in-out);
+          border-top: 1px solid $gray;
+          display: none;
+          .no-results-wrapper {
+            margin: 0 50px;
+            h2 {
+              @include font-family($futura-book);
+              @include font(2.6, $white);
+              text-transform: uppercase;
+              letter-spacing: 2px;
+              margin: 45px 0 20px;
+            }
+            p {
+              @include font-family($futura-book);
+              @include font(2, $white);
+              a {
+                @include transition(color .25s ease-in-out);
+                color: $aqua;
+                &:hover {
+                  color: $white;
+                }
+              }
+            }
+          }
+        }
+
+        #unit-detail-background {
+          @extend %fill;
+          position: fixed;
+          background-color: rgba($black,0.68);
+          z-index: 3;
+        }
+        #unit-detail-wrapper {
+          height: auto;
+          overflow: visible;
+          position: absolute;
+          z-index: 10;
+          top: 74px;
+          right: 20px;
+          left: 20px;
+          margin: 0 auto;
+          @include breakpoint(ten) {
+            position: fixed;
+            right: 0;
+            left: 0;
+            max-width: 1260px;
+            width: 100%;
+            height: 775px;
+            overflow: hidden;
+            padding: 60px;
+            @include box-sizing(border-box);
+            border: 2px solid $white;
+            background-color: $teal;
+          }
+          #unit-detail {
+            @extend %fill;
+            box-sizing: border-box;
+            width: 100%;
+            position: relative;
+            border: 2px solid $white;
+            @include box-sizing(border-box);
+            padding: 20px;
+            @include breakpoint(ten) {
+              padding: 0;
+              border: none;
+            }
+            .close-button {
+              cursor: pointer;
+              position: absolute;
+              z-index: 10;
+              top: -25px;
+              right: 0;
+              @include breakpoint(ten) {
+                top: -45px;
+                right: -48px;
+              }
+              .icon-close {
+                @extend %cover;
+                @include font-size(1.5);
+                color: $white;
+                cursor: pointer;
+                z-index: 11;
+                &:hover {
+                  @include transform(scale(1.3));
+                  color: $black;
+                }
+              }
+            }
+            .left {
+              position: relative;
+              height: auto;
+              width: 100%;
+              padding: 20px 0;
+              @include breakpoint(ten) {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: calc(100% - 600px);
+                height: 100%;
+                text-align: center;
+              }
+              img {
+                width: 100%;
+                @include breakpoint(ten){
+                  max-width: 100%;
+                  max-height: 100%;
+                  width: auto;
+                  height: auto;
+                }
+              }
+            }
+            .right {
+              position: relative;
+              width: 100%;
+              height: 100%;
+              background: $white;
+              padding: 20px 5%;
+              @include box-sizing(border-box);
+              @include breakpoint(ten){
+                padding: 0;
+                position: absolute;
+                top: 0;
+                right: 0;
+                min-height: 600px;
+                max-height: 775px;
+                width: 515px;
+                padding: 55px;
+              }
+              h2 {
+                @include font-family($futura-book);
+                @include font(6.2, $teal);
+                letter-spacing: 2px;
+                text-transform: uppercase;
+              }
+              .info {
+                padding-top: 20px;
+                div {
+                  @include font-family($futura-book);
+                  @include font(1.5, $black);
+                  letter-spacing: 2px;
+                  text-transform: uppercase;
+                  margin: 0 0 10px;
+                }
+                .available-count {
+                  padding-top: 20px;
+                  font-style: italic;
+                  span {
+                    font-style: normal;
+                  }
+                }
+              }
+              #available-units {
+                margin-bottom: 20px;
+                @include breakpoint(ten) {
+                  max-height: 250px;
+                  overflow-y: scroll;
+                }
+                .available-unit {
+                  @include font-family($futura-book);
+                  @include font(1.3, $black);
+                  letter-spacing: 2px;
+                  text-transform: uppercase;
+                  padding: 18px;
+                  border: 1px solid $aqua;
+                  margin-bottom: 10px;
+                  &:last-of-type {  margin: 0; }
+                  div {
+                    margin: 0 0 10px;
+                    &:last-of-type {
+                      margin: 0;
+                    }
+                  }
+                  a {
+                    @include transition(all 0.25s ease-in-out);
+                    @include font(1.3, $black);
+                    text-decoration: underline;
+                    &:hover {
+                      color: $aqua;
+                    }
+                  }
+                }
+              }
+              .buttons {
+                a { @include box-sizing(border-box); }
+                a,
+                button {
+                  @include transition(all 0.25s ease-in-out);
+                  @include font-family($futura-book);
+                  @include font(1.4, $black);
+                  text-decoration: none;
+                  letter-spacing: 2px;
+                  text-transform: uppercase;
+                  display: inline-block;
+                  width: 100%;
+                  padding: 13px 0;
+                  border: 2px solid $black;
+                  text-align: center;
+                  background: none;
+                  cursor: pointer;
+                  &:first-child {
+                    margin: 0 0 10px 0;
+                  }
+                  &:hover {
+                    color: $white;
+                    background-color: $aqua;
+                  }
+                  @include breakpoint(tablet) {
+                    width: 160px;
+                    &:first-child {
+                      margin: 0 10px 0 0;
+                    }
+                  }
+                }
+                button { height: 44px; }
+              }
+            }
+          }
+          #share-info-wrapper {
+            @extend %fill;
+            position: fixed;
+            z-index: 101;
+            text-align: center;
+            #share-info-background {
+              @extend %fill;
+              background-color: rgba($black,0.8);
+              z-index:1;
+            }
+            #share-info {
+              @include box-sizing(border-box);
+              padding: 30px;
+              width: 280px;
+              background: $aqua;
+              border: 2px solid $white;
+              position: absolute;
+              right: 0;
+              left: 0;
+              margin: -114px auto;
+              top: 50%;
+              z-index:2;
+              @include breakpoint(ten) {
+                left: 50%;
+                width: 400px;
+                height: 240px;
+                padding: 50px;
+                margin-left: -200px;
+                margin-top: -120px;
+                overflow: hidden;
+              }
+              .close-button {
+                cursor: pointer;
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                z-index: 10;
+                .icon-close {
+                  @extend %cover;
+                  @include font-size(1.5);
+                  color: $white;
+                  cursor: pointer;
+                  z-index: 11;
+                  &:hover {
+                    @include transform(scale(1.3));
+                    color: $black;
+                  }
+                }
+              }
+              h3 {
+                @include font-family($futura-book);
+                @include font(1.5, $white);
+                text-transform: uppercase;
+                letter-spacing: 2px;
+                margin:  0 0 20px;
+              }
+              #share-buttons {
+                a {
+                  @include font-size(3);
+                  @include transition(all .25s ease-in-out);
+                  display: inline-block;
+                  padding: 5px;
+                  position: relative;
+                  cursor: pointer;
+                  color: $black;
+                  &:hover {
+                    color: $white;
+                  }
+                  &.stButton {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    z-index: 100;
+                  }
+                  &.chicklets {
+                    visibility: hidden;
+                  }
+                }
+              }
+            }
+          }
+        }
+        #loader {
+          @include font-size(6);
+          padding: 60px 0;
+          text-align: center;
+          color: $white;
+        }
+        .disclaimer {
+          padding-top: 50px;
+        }
+      }
+    }
+  }
+}
+
+// Home CTA Override
+.home {
+  #call-to-actions {
+    .cta-bg-wrapper {
+      .background {
+        .img-wrapper {
+          .border-top, .border-bottom {
+            height: calc(50% - 95px);
+            @include breakpoint(fourteen) {
+              height: calc(50% - 140px);
+            }
+          }
+        }
+        &.left {
+          .img-wrapper {
+            .border-bottom { display: block; bottom: 0; right: 0; }
+          }
+        }
+        &.right {
+          .img-wrapper {
+            .border-bottom { display: block; bottom: 0; left: 0; }
+          }
+        }
+      }
+      .cta-link-wrapper {
+        .cta-button {
+          @include breakpoint(tablet){
+            display: inline-block;
+          }
+        }
+      }
+      .icon-mint-triangle { display: none; }
+    }
+  }
+}
+
+// Blog
+.blog,
+.single-post,
+.category,
+.search {
+  .page-header {
+    margin: 0 0 125px;
+    .header-content {
+      bottom: 0;
+      .header-line-break {
+        margin: 0 auto;
+        height: 75px;
+        @include breakpoint(nineteen) { height: 205px; }
+        .background {
+          height: 100%;
+        }
+      }
+    }
+    .content-arrow {
+      top: auto;
+      bottom: -60px;
+      position: absolute;
+    }
+  }
+  #blog-page,
+  #single-post {
+    background: $cream;
+
+
+    // Search form
+    .search-form {
+      position: relative;
+      label {
+        .screen-reader-text { display: none; }
+        .search-field {
+          width: calc(100% - 40px);
+          @include appearance(none);
+          background: none;
+          border: 2px solid $black;
+          @include font-family($futura-book);
+          @include font(1.5, $black);
+          text-transform: uppercase;
+          letter-spacing: 2px;
+          padding: 8px 10px;
+        }
+      }
+      .search-submit {
+        position: absolute;
+        @include appearance(none);
+        @include transform(rotate(90deg));
+        @include box-shadow(none);
+        @include font-size(1.7);
+        right: 5px;
+        top: 7px;
+        padding: 0;
+        border: none;
+        background: none;
+        outline: none;
+        font-family: 'icomoon';
+        &:hover {
+          right: 0;
+          cursor: pointer;
+          color: $aqua;
+        }
+      }
+    }
+
+    .blog-page-wrapper,
+    .single-post-wrapper {
+      max-width: 1260px;
+      margin: 0 auto;
+      padding: 30px 20px;
+      @include box-sizing(border-box);
+      @include breakpoint(tablet) {
+        padding: 80px 70px 50px;
+      }
+      .left {
+        @include box-sizing(border-box);
+        .search-form {
+          padding: 0 0 20px;
+        }
+        @include breakpoint(tablet) {
+          display: inline-block;
+          width: calc(100% - 313px);
+          padding: 0 80px 0 0;
+          .search-form {
+            display: none;
+          }
+        }
+
+        // Blog Post Landing Page
+        .posts {
+
+          // Back link
+          .blog-back-link {
+            position: relative;
+            margin: 0 0 20px;
+            a {
+              @include font-family($futura-book);
+              @include font(2, $black);
+              text-transform: uppercase;
+              text-decoration: none;
+              letter-spacing: 2px;
+              padding: 0 0 0 20px;
+              .icon-mint-triangle {
+                position: absolute;
+                @include transform(rotate(-90deg));
+                @include font-size(1.2);
+                left: 0;
+                top: 3px;
+              }
+              &:hover {
+                color: $aqua;
+                .icon-mint-triangle {
+                  left: -5px;
+                }
+              }
+            }
+          }
+          h1 {
+            @include font-family($futura-book);
+            @include font(2.2, $black);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            line-height: 1.5;
+            span {
+              color: $aqua;
+            }
+            margin: 0 0 30px;
+            padding: 0 0 30px;
+            border-bottom: 1px solid $black;
+          }
+
+          .post {
+            margin: 0 0 65px;
+            padding: 0 0 40px;
+            border-bottom: 1px solid $black;
+            &:last-of-type {
+              margin: 0;
+              border-bottom: none;
+            }
+            .title {
+              @include font-family($futura-book);
+              @include font(2.5, $black);
+              text-transform: uppercase;
+              letter-spacing: 2px;
+              text-decoration: none;
+              display: inline-block;
+              margin: 0 0 15px;
+              line-height: 1.25;
+              &:hover {
+                color: $aqua;
+              }
+              @include breakpoint(tablet) {
+                @include font-size(3.5);
+              }
+            }
+            .post-content-wrapper {
+              a.post-image {
+                margin: 0 0 20px;
+                display: block;
+                img { width: 100%; height: auto; }
+              }
+              .post-content-container {
+                .post-attribution {
+                  @include font-family($futura-book);
+                  @include font(1.3, $black);
+                  text-transform: uppercase;
+                  letter-spacing: 2px;
+                  margin: 0 0 20px;
+                }
+                .post-excerpt {
+                  p {
+                    @include font-family($futura-book);
+                    @include font(1.5, $black);
+                    line-height: 1.5;
+                    a {
+                      color: $aqua;
+                      text-decoration: none;
+                      &:hover {
+                        color: $black;
+                        text-decoration: underline;
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+
+        // Single Post
+        .post {
+          .post-content {
+            .post-title {
+              @include font-family($futura-book);
+              @include font(2.5, $black);
+              text-transform: uppercase;
+              letter-spacing: 2px;
+              margin: 0 0 15px;
+              line-height: 1.5;
+              @include breakpoint(tablet) {
+                @include font-size(3.5);
+              }
+            }
+            .image {
+              margin: 0 0 20px;
+              display: block;
+              img { width: 100%; height: auto; }
+            }
+            .post-attribution {
+              @include font-family($futura-book);
+              @include font(1.3, $black);
+              text-transform: uppercase;
+              letter-spacing: 2px;
+              margin: 0 0 20px;
+            }
+            p {
+              @include font-family($futura-book);
+              @include font(1.5, $black);
+              line-height: 1.5;
+              margin: 0 0 20px;
+              a {
+                color: $aqua;
+                text-decoration: none;
+                &:hover {
+                  color: $black;
+                  text-decoration: underline;
+                }
+              }
+            }
+          }
+        }
+      }
+
+      .right {
+        display: none;
+        @include breakpoint(tablet) {
+          vertical-align: top;
+          display: inline-block;
+          width: 310px;
+        }
+        .sidebar {
+          .categories,
+          .recent-posts {
+            margin: 30px 0 35px;
+            padding: 0 0 35px;
+            border-bottom: 1px solid $black;
+            &:last-of-type {
+              margin: 0 0 30px;
+              padding: 0;
+              border-bottom: none;
+            }
+            h2 {
+              @include font-family($futura-book);
+              @include font(1.8, $black);
+              text-transform: uppercase;
+              letter-spacing: 2px;
+              margin: 0 0 35px;
+            }
+            .categories-list,
+            .recent-posts-list {
+              li {
+                margin: 0 0 35px;
+                line-height: 2;
+                &:last-of-type { margin: 0; }
+                &.current-cat a {
+                  color: $aqua;
+                  &:hover { color: $black; }
+                }
+                a {
+                  @include transition(all .25s ease-in-out);
+                  @include font-family($futura-book);
+                  @include font(1.5, $black);
+                  text-transform: uppercase;
+                  letter-spacing: 2px;
+                  text-decoration: none;
+                  &:hover {
+                    color: $aqua;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+
+// 404
+.error404 {
+  .page-header {
+    margin: 0 0 125px;
+    .header-content {
+      max-width: 100%;
+      .header-headline,
+      .header-sub-headline {
+        max-width: 665px;
+        margin: 0 auto;
+      }
+    }
+    .content-arrow {
+      top: auto;
+      bottom: -60px;
+      position: absolute;
+    }
+  }
+}
+
+#footer {
+  background: $black;
+  text-align: center;
+  .content {
+    padding: 65px 20px 75px;
+    @include box-sizing(border-box);
+    #footer-logo {
+      @include breakpoint(ten){
+        margin-bottom: 60px;
+      }
+      a {
+        display: inline-block;
+        img {
+          margin: 0 0 30px;
+        }
+      }
+      .stapleton  a {
+        @include font-family($futura-book);
+        @include font(1.1, $teal);
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        text-decoration: none;
+        &:hover {
+          color: $white;
+        }
+      }
+    }
+    .section {
+      display: block;
+      @include breakpoint(tablet) {
+        display: inline-table;
+        vertical-align: middle;
+        padding: 0 60px;
+      }
+      @include breakpoint(ten){
+        padding: 0 1%;
+        width: 160px;
+
+      }
+      @include breakpoint(fourteen){
+        padding: 0 3%;
+      }
+      a{
+        text-align: center;
+        @include font-family($futura-book);
+        @include font(1, $white);
+        line-height: 1.5;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        text-decoration: none;
+        &:hover { color: $teal; }
+        .top, .bottom {
+          display: inline-block;
+          @include breakpoint(tablet) {
+            display: block;
+          }
+        }
+        .break {
+          display: inline-block;
+          @include breakpoint(tablet) {
+            display: none;
+          }
+        }
+      }
+      &.social{
+        margin: 25px 0;
+        @include breakpoint(tablet){
+          display: block;
+        }
+        @include breakpoint(ten){
+          display: inline-table;
+          text-align: right;
+          margin: 0;
+        }
+        .icons {
+          a.icon {
+            color: $teal;
+            @include font-size(2);
+            margin: 0 5px;
+            &:first-child { margin-left: 0; }
+            &:last-child { margin-right: 0; }
+            &:hover {
+              color: $white;
+            }
+          }
+        }
+      }
+      @include breakpoint(tablet){
+        &.building{
+          border-right: 1px solid #fff;
+        }
+      }
+      @include breakpoint(ten){
+        &.building{
+          border-left: 1px solid #fff;
+        }
+        &.leasing{
+          border-right: 1px solid #fff;
+        }
+      }
+      &.building,&.leasing {
+        display: none;
+        @include breakpoint(tablet){
+          display: inline-table;
+        }
+        .title {
+          text-align: center;
+          @include font-family($futura-book);
+          @include font(1, $teal);
+          line-height: 1.5;
+          letter-spacing: 2px;
+          text-transform: uppercase;
+        }
+        .phone {
+          text-align: center;
+          .phone-number {
+            @include font-family($futura-book);
+            @include font(1, $white);
+            line-height: 1.5;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-decoration: none;
+            &:hover { color: $teal; }
+          }
+        }
+        #leasing-address {
+          .leasing-phone { display: none; }
+        }
+      }
+      &.icons{
+        @include breakpoint(tablet){
+          display: block;
+          margin: 20px 0;
+        }
+        @include breakpoint(ten){
+          display: inline-table;
+          text-align: left;
+          margin: 0;
+        }
+        #management {
+          display: block;
+          margin: 0 0 20px;
+          @include breakpoint(tablet) {
+            margin: 0;
+            display: inline-block;
+          }
+          @include breakpoint(ten) { margin: 0 0 20px; }
+          a {
+            text-decoration: none;
+            display: inline-block;
+            span {
+              color: $white;
+              @include font-size(3);
+              &:hover { color: $teal; }
+            }
+          }
+          > span {
+            display: inline-block;
+            color: $white;
+            @include font-size(3);
+          }
+        }
+        #handi-eho {
+          display: block;
+          @include breakpoint(tablet) {
+            display: inline-block;
+          }
+          span {
+            margin: 0 0 0 5px;
+            color: $darkgray;
+            @include font-size(1.4);
+          }
+        }
+      }
+    }
+    .privacy {
+      .phone {
+        margin: 25px 0 10px 0;
+        .phone-number {
+          @include font-family($futura-book);
+          @include font(1, $white);
+          line-height: 1.5;
+          letter-spacing: 2px;
+          text-transform: uppercase;
+          text-decoration: none;
+          &:hover { color: $teal; }
+        }
+      }
+      #privacy {
+        a {
+          text-decoration: none;
+          @include font-family($futura-book);
+          @include font(1.2, $teal);
+          letter-spacing: 2px;
+          text-transform: uppercase;
+          &:hover {
+            color: $white;
+          }
+        }
+      }
+    }
+    .left-column {
+      @include breakpoint(tablet) {
+        display: inline-block;
+        text-align: left;
+      }
+      #left {
+        display: none;
+        @include breakpoint(tablet) { display: block; }
+        @include breakpoint(ten) {
+          margin: 33px 35px 0 0;
+          display: inline-block;
+        }
+      }
+      #leasing-address {
+        display: none;
+        @include breakpoint(tablet) {
+          display: inline-block;
+        }
+      }
+      .address, #leasing-address {
+      }
+      #leasing-address {
+        margin: 33px 0 0;
+        @include breakpoint(tablet) { margin: 20px 0 0; }
+        @include breakpoint(ten) { margin: 33px 0 0; }
+        .title, .leasing-phone {
+          text-align: left;
+          @include font-family($futura-book);
+          @include font(1, $white);
+          line-height: 1.5;
+          letter-spacing: 2px;
+          text-transform: uppercase;
+        }
+      }
+    }
+    .right-column {
+      @include breakpoint(tablet) {
+        display: inline-block;
+        vertical-align: top;
+      }
+      #right {
+        margin: 30px 0 0;
+        @include breakpoint(tablet) { margin: 20px 0 0; }
+        @include breakpoint(ten) { margin: 30px 0 0 75px; }
+
+      }
+    }
+  }
+}
+
+#online-leasing-wrapper {
+  margin: 125px auto 0;
+  #widget-container {
+    width: 100%;
+    max-width: 940px;
+    margin: 0 auto;
+    text-align: center;
+  }
+}
+
+.cookies-content{
+  a{
+    color:$white;
+    text-decoration:underline;
+  }
+}
+
+#catapult-cookie-bar{
+  @include font-family($futura);
+  @include font-size(1.4);
+  button{
+    @include font-size(1.2);
+  }
+}
+
+@import "pages/fc_guarantee";

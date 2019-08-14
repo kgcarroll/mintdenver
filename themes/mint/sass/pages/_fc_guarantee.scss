@@ -1,0 +1,138 @@
+$primary-color: $green;
+$secondary-color: $black;
+$tertiary-color: $lightgray;
+
+%font {
+	@include font-family($futura-book);
+		@include font-size(1.5);
+		line-height: 1.5;
+}
+
+// Icon.... don't mess with this.
+@font-face {
+  font-family: 'icomoon';
+  src:  url('../fonts/fc/icomoon.eot?vqfvak');
+  src:  url('../fonts/fc/icomoon.eot?vqfvak#iefix') format('embedded-opentype'),
+    url('../fonts/fc/icomoon.ttf?vqfvak') format('truetype'),
+    url('../fonts/fc/icomoon.woff?vqfvak') format('woff'),
+    url('../fonts/fc/icomoon.svg?vqfvak#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-fc-guarantee:before {
+  content: "\e90c";
+}
+
+
+#fc-guarantee-content {
+	margin: 150px auto 0;
+	background: $tertiary-color;
+	.content-wrapper {
+		max-width: 1024px;
+		margin: 0 auto;
+		padding: 20px;
+		@include breakpoint(tablet) {
+			display: flex;
+			flex-direction: row;
+			flex-wrap: wrap;
+			padding: 50px;
+		}
+		@include breakpoint(ten) {
+			padding: 100px 0;
+		}
+		.guarantee-wrapper {
+			width: 100%;
+			text-align: center;
+			@include breakpoint(tablet) { width: 200px; }
+			.fc-gurantee-logo {
+				color: $primary-color;
+				@include font-size(4.15);
+			}
+			.guarantee-headline {
+				@extend %font;
+				color: $primary-color;
+				@include font-size(2.6);
+				margin: 15px 0 30px 0;
+			}
+			.guarantee-copy {
+				@extend %font;
+				color: $secondary-color;
+				.guarantee-copy-1 {
+					margin: 0 0 30px;
+				}
+			}
+			.link {
+				margin: 30px 0 0;
+				text-align: center;
+				a {
+					display: block;
+					border: 2px solid $primary-color;
+					padding: 10px;
+					@extend %font;
+					text-decoration: none;
+					color: $primary-color;
+					@include transition(all .25s ease-in-out);
+					&:hover {
+						background: $primary-color;
+						color: $white;
+					}
+				}
+			}
+		}
+		.copy-wrapper {
+			width: 100%;
+			padding: 0 0 25px 0;
+			margin: 0 0 25px 0;
+			border-bottom: solid 1px $primary-color;
+			@include breakpoint(tablet) {
+				border-bottom: 0;
+				padding: 0 25px 0 0;
+				margin: 0 25px 0 0;
+				border-right: solid 1px $primary-color;
+				width: calc(100% - 251px);
+			}
+			.headline {
+				@extend %font;
+				color: $primary-color;
+				@include font-size(2);
+				margin: 30px 0;
+			}
+
+			.subheadline {
+				@extend %font;
+				color: $secondary-color;
+			}
+
+			.copy {
+				@extend %font;
+				color: $secondary-color;
+				p {
+					margin: 0 0 20px;
+					a {
+						color: $primary-color;
+						text-decoration: none;
+						&:hover {
+							color: $secondary-color;
+						}
+					}
+				}
+			}
+		}
+	}
+}

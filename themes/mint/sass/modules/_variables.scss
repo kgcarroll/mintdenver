@@ -1,0 +1,88 @@
+  // Colors
+$black: #000000;
+$lightgray: #ECE9DF;
+$gray: #989898;
+$darkgray: #525252;
+$white: #FFFFFF;
+$teal: #78BFBE;
+$aqua: #28B8C1;
+$green: #418a80;
+$cream: #ece9df;
+
+// Fonts
+$futura: 'Futura LT W01 Light';
+$futura-book: 'Futura LT W01 Book';
+
+@import url("//fast.fonts.net/t/1.css?apiType=css&projectid=2279bd7d-e9e3-4755-9f46-85699b086cc9");
+@font-face{
+  font-family:"Futura LT W01 Light";
+  src:url("../fonts/2b40e918-d269-4fd9-a572-19f5fec7cd7f.eot?#iefix");
+  src:url("../fonts/2b40e918-d269-4fd9-a572-19f5fec7cd7f.eot?#iefix") format("eot"),url("../fonts/26091050-06ef-4fd5-b199-21b27c0ed85e.woff2") format("woff2"),url("../fonts/cca525a8-ad89-43ae-aced-bcb49fb271dc.woff") format("woff"),url("../fonts/88cc7a39-1834-4468-936a-f3c25b5d81a1.ttf") format("truetype"),url("../fonts/14d6bf5d-15f1-4794-b18e-c03fb9a5187e.svg#14d6bf5d-15f1-4794-b18e-c03fb9a5187e") format("svg");
+}
+@font-face{
+  font-family:"Futura LT W01 Book";
+  src:url("../fonts/cf053eae-ba1f-44f3-940c-a34b68ccbbdf.eot?#iefix");
+  src:url("../fonts/cf053eae-ba1f-44f3-940c-a34b68ccbbdf.eot?#iefix") format("eot"),url("../fonts/8bf38806-3423-4080-b38f-d08542f7e4ac.woff2") format("woff2"),url("../fonts/e2b9cbeb-fa8e-41cd-8a6a-46044b29ba52.woff") format("woff"),url("../fonts/c2a69697-4f06-4764-abd4-625031a84e31.ttf") format("truetype"),url("../fonts/dc423cc1-bf86-415c-bc7d-ad7dde416a34.svg#dc423cc1-bf86-415c-bc7d-ad7dde416a34") format("svg");
+}
+
+
+// Icons
+// @font-face {
+//   font-family: 'icomoon';
+//   src:  url('../icons/icomoon.eot?do7ywd');
+//   src:  url('../icons/icomoon.eot?do7ywd#iefix') format('embedded-opentype'),
+//         url('../icons/icomoon.ttf?do7ywd') format('truetype'),
+//         url('../icons/icomoon.woff?do7ywd') format('woff'),
+//         url('../icons/icomoon.svg?do7ywd#icomoon') format('svg');
+//   font-weight: normal;
+//   font-style: normal;
+// }
+
+// [class^="icon-"], [class*=" icon-"] {
+//   /* use !important to prevent issues with browser extensions that change fonts */
+//   font-family: 'icomoon' !important;
+//   speak: none;
+//   font-style: normal;
+//   font-weight: normal;
+//   font-variant: normal;
+//   text-transform: none;
+//   line-height: 1;
+
+//   /* Better Font Rendering =========== */
+//   -webkit-font-smoothing: antialiased;
+//   -moz-osx-font-smoothing: grayscale;
+// }
+
+// .icon-handi:before {
+//   content: "\e901";
+// }
+// .icon-eho:before {
+//   content: "\e902";
+// }
+// .icon-forest-city:before {
+//   content: "\e904";
+// }
+// .icon-close:before {
+//   content: "\e90a";
+// }
+// .icon-special-trigger:before {
+//   content: "\e909";
+// }
+// .icon-chat:before {
+//   content: "\e900";
+// }
+// .icon-mint-diamond:before {
+//   content: "\e905";
+// }
+// .icon-mint-logo:before {
+//   content: "\e907";
+// }
+// .icon-mint-triangle:before {
+//   content: "\e908";
+// }
+// .icon-phone:before {
+//   content: "\e906";
+// }
+// .icon-marker:before {
+//   content: "\e903";
+// }
